@@ -110,7 +110,10 @@ fun DrepanoCareApp(context: Context) {
     var mood by remember { mutableStateOf("Normal") }; var pain by remember { mutableFloatStateOf(0f) }; var location by remember { mutableStateOf("Aucune") }
     var stress by remember { mutableFloatStateOf(2f) }; var notes by remember { mutableStateOf("") }
     var journal by remember { mutableStateOf(context.getSharedPreferences("drepano", Context.MODE_PRIVATE).getString("journal","") ?: "") }
-    fun persist(list: List<Medicine>) { medicines=list; saveMedicines(context,list) }
+    fun persist(list: List<Medicine>) {
+    medicines = list.toMutableList()
+    saveMedicines(context, list)
+    }
     val total=medicines.sumOf { it.alarms.size }; val taken=medicines.sumOf { m -> m.alarms.count { it.taken } }
     MaterialTheme(colorScheme=lightColorScheme(primary=androidx.compose.ui.graphics.Color(0xFF087F8C), secondary=androidx.compose.ui.graphics.Color(0xFF356A85))) {
         Scaffold(topBar={ TopAppBar(title={ Column { Text("🩸 DrepanoCare"); Text("Mon suivi au quotidien", style=MaterialTheme.typography.labelSmall) } }) },
